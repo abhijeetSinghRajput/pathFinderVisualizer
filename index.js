@@ -216,6 +216,7 @@ cells.forEach((cell) => {
     cell.addEventListener('pointermove', pointMove);
     cell.addEventListener('pointerup', pointUp);
     cell.addEventListener('click', () => {
+        cell.classList.remove('visited','path');
         cell.classList.toggle('wall');
     })
 })
