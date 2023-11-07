@@ -206,7 +206,7 @@ cells.forEach((cell) => {
         else if (drawing) {
             const x = Number(cordinate[0]);
             const y = Number(cordinate[1]);
-            matrix[x][y].setAttribute('class', 'col wall');
+                matrix[x][y].setAttribute('class', 'col wall');
         }
 
 
