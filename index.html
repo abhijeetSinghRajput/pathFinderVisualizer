@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path finder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="utility.css">
+</head>
+
+<body>
+    <div class="template">
+
+
+
+        <!-- ================ NAVIGATION BAR ============== -->
+        <header>
+
+            <nav>
+                <div id="logo">pathfinding visualizer</div>
+
+                <button id="visualize" class="btn">Visualize</button>
+
+                <ul class="nav-menu">
+                    <li>
+                        <a id="clear-path" href="#">clear path</a>
+                    </li>
+                    <li>
+                        <a id="clear-board" href="#">clear board</a>
+                    </li>
+
+                    <li class="drop-box">
+                        <a class="drop-toggle" href="#">Maze<span class="carret"></span></a>
+                        <ul class="drop-menu">
+                            <li><a href="#">Maze 1</a></li>
+                            <li><a href="#">Maze 2</a></li>
+                            <li><a href="#">Maze 3</a></li>
+                            <li><a href="#">Maze 4</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li id="algo" class="drop-box">
+                        <a class="drop-toggle active" href="#">Algorithms <span class="carret"></span></a>
+                        <ul class="drop-menu">
+                            <li><a href="#">BFS</a></li>
+                            <li><a href="#">Dijkstra's Algorithm</a></li>
+                            <li><a href="#">Greedy Best-first Search</a></li>
+                            <li><a href="#">A* Algorithm</a></li>
+                        </ul>
+                    </li>
+                    
+                    
+                </ul>
+
+            </nav>
+
+            <!-- ================ GUIDE BAR ============== -->
+
+            <ul class="guide">
+                <li>
+                    <div class="symbol source"></div>
+                    <div class="text">Start Node</div>
+                </li>
+
+                <li>
+                    <div class="symbol target"></div>
+                    <div class="text">Target Node</div>
+                </li>
+
+                <li>
+                    <div class="symbol unvisited"></div>
+                    <div class="text"> Unvisited node</div>
+                </li>
+
+                <li>
+                    <div class="symbol visited"></div>
+                    <div class="text">visited node</div>
+                </li>
+
+                <li>
+                    <div class="symbol wall"></div>
+                    <div class="text">wall node</div>
+                </li>
+
+                <li>
+                    <div class="symbol path"></div>
+                    <div class="text">Shortest-Path Node</div>
+                </li>
+            </ul>
+        </header>
+
+
+        <!-- ============ DYNAMIC BOARD ================ -->
+        <div id="board"><!-- magic --></div>
+    </div>
+</body>
+<script src="index.js"></script>
+
+</html>

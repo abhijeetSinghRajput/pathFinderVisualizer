@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+
+:root {
+    --wall-clr : rgb(12, 53, 71);
+    --visited-clr : rgba(0, 190, 218, 0.75);
+    --path-clr : rgb(255, 254, 106);
+}
+.btn.unactive{
+    opacity: .8;
+    cursor: not-allowed;
+}
+span.carret{
+    display: inline-block;
+    aspect-ratio: 1;
+    width: 12px;
+    /* border: 1px solid; */
+    background: url('image/caret-down-outline.svg');
+    background-repeat: no-repeat;
+    margin-left: 4px;
+}
+.wall{
+    background-color: var(--clr-navy);
+    animation: wallAnimation .5s ease-out forwards;
+}
+
+.unvisited {
+    background-color: white;
+    border: 1px solid var(--light-line);
+}
+
+.visited {
+    animation: visitedAnimation 1.5s ease-out forwards;
+}
+
+.path{
+    animation: pathAnimation 1.5s ease-out forwards;
+}
+
+.carret{
+    aspect-ratio: 1;
+}
+
+.btn{
+    cursor: pointer;
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: var(--primary-clr);
+    color: white;
+    font-weight: 600;
+}
+
+.source{
+    background: url(image/location-arrow.svg);
+}
+.target{
+    background: url(image/bullseye.svg);
+}
+
+/* =================== animations =================== */
+
+@keyframes wallAnimation {
+    0% {
+        transform: scale(.3);
+        background-color: var(--wall-clr);
+    }
+    
+    50% {
+        transform: scale(1.0);
+        background-color: var(--wall-clr);
+    }
+    100% {
+        transform: scale(1.0);
+        background-color: var(--wall-clr);
+    }
+}
+
+@keyframes visitedAnimation {
+    0% {
+        transform: scale(.3);
+        background-color: rgba(0, 0, 66, 0.75);
+        border-radius: 100%;
+    }
+
+    50% {
+        background-color: rgba(17, 104, 217, 0.75);
+    }
+
+    75% {
+        transform: scale(1);
+        background-color: rgba(0, 217, 159, 0.75);
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: var(--visited-clr);
+
+    }
+}
+
+
+@keyframes pathAnimation {
+    0% {
+        transform: scale(.6);
+        background-color: var(--path-clr);
+    }
+    
+    50% {
+        transform: scale(1);
+        background-color: var(--path-clr);
+    }
+    
+    100% {
+        transform: scale(1.0);
+        background-color: var(--path-clr);
+    }
+}
+
+
