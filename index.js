@@ -178,8 +178,6 @@ cells.forEach((cell) => {
         drawing = false;
         draging = false;
         dragStart = null;
-        matrix[source.x][source.y].classList.remove('wall');
-        matrix[target.x][target.y].classList.remove('wall');
     }
 
     const pointMove = (e) => {
@@ -206,10 +204,12 @@ cells.forEach((cell) => {
 
 
         else if (drawing) {
+            if(triggerElement.classList.contains('source') || triggerElement.classList.contains('target'))
+            return;
+        
             const x = Number(cordinate[0]);
             const y = Number(cordinate[1]);
-            if (cell.classList.contains('source') || cell.classList.contains('target'))
-            return;
+            
             matrix[x][y].setAttribute('class', 'col wall');
         }
 

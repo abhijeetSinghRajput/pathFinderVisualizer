@@ -8,8 +8,7 @@
 }
 
 :root {
-    /* --wall-clr : rgb(12, 53, 71); */
-    --wall-clr : #34495e;
+    --wall-clr : rgb(12, 53, 71);
     --visited-clr : rgba(0, 190, 218, 0.75);
     --path-clr : rgb(255, 254, 106);
 }
