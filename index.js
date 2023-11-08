@@ -178,6 +178,8 @@ cells.forEach((cell) => {
         drawing = false;
         draging = false;
         dragStart = null;
+        matrix[source.x][source.y].classList.remove('wall');
+        matrix[target.x][target.y].classList.remove('wall');
     }
 
     const pointMove = (e) => {
@@ -206,7 +208,9 @@ cells.forEach((cell) => {
         else if (drawing) {
             const x = Number(cordinate[0]);
             const y = Number(cordinate[1]);
-                matrix[x][y].setAttribute('class', 'col wall');
+            if (cell.classList.contains('source') || cell.classList.contains('target'))
+            return;
+            matrix[x][y].setAttribute('class', 'col wall');
         }
 
 
@@ -217,10 +221,10 @@ cells.forEach((cell) => {
     cell.addEventListener('pointerup', pointUp);
 
     cell.addEventListener('click', () => {
-        if(cell.classList.contains('source') || cell.classList.contains('target'))
-        return;
-    
-        cell.classList.remove('visited','path');
+        if (cell.classList.contains('source') || cell.classList.contains('target'))
+            return;
+
+        cell.classList.remove('visited', 'path');
         cell.classList.toggle('wall');
     })
 })

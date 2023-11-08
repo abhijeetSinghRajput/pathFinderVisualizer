@@ -83,6 +83,7 @@ nav {
 .drop-box .drop-menu {
     display: none;
     position: absolute;
+    right: 0;
     z-index: 10;
     background-color: var(--clr-navy);
     width: max-content;
