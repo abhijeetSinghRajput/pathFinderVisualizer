@@ -215,7 +215,11 @@ cells.forEach((cell) => {
     cell.addEventListener('pointerdown', pointDown);
     cell.addEventListener('pointermove', pointMove);
     cell.addEventListener('pointerup', pointUp);
+
     cell.addEventListener('click', () => {
+        if(cell.classList.contains('source') || cell.classList.contains('target'))
+        return;
+    
         cell.classList.remove('visited','path');
         cell.classList.toggle('wall');
     })
