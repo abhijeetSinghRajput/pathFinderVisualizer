@@ -1,19 +1,34 @@
-
 // ==========================================================
 // =================== Rendering Grid 📅📏 =================
 // ==========================================================
 const board = document.querySelector('#board');
-
-var matrix = [];
+let matrix;
 let row;
 let col;
+let width = 22;
+var cells = [];
+
+const pixels = document.querySelectorAll('#pixel .drop-menu a');
+pixels.forEach((pixel) => {
+    pixel.addEventListener('click', () => {
+        width = pixel.innerText.replace('px', '');
+        const cells = document.querySelectorAll('.col');
+        cells.forEach(cell => {
+            document.documentElement.style.setProperty('--cell-width', `${width}px`);
+        })
+
+        renderMap();
+        source = set('source');
+        target = set('target');
+    });
+});
 
 function renderMap() {
-    let width = 22;
-
+    matrix = [];
     col = parseInt(board.clientWidth / width);
     row = parseInt(board.clientHeight / width);
 
+    board.innerHTML = '';
     for (let i = 0; i < row; i++) {
         const rowElement = document.createElement('div');
         rowElement.setAttribute('id', `row-${i}`);
@@ -30,6 +45,8 @@ function renderMap() {
         board.appendChild(rowElement);
         matrix.push(colList);
     }
+    cells = document.querySelectorAll('.col');
+    boardInteration(cells);
 }
 
 renderMap();
@@ -43,32 +60,27 @@ renderMap();
 // ==========================================================
 
 //check outBound of matrix ✔️❌
-const isValid = (x, y) => {
+function isValid(x, y) {
     return (x >= 0 && y >= 0 && x < row && y < col);
 }
 
-const getRandomCordinate = () => {
-    let x = parseInt(Math.random() * row);
-    let y = parseInt(Math.random() * col);
-    return { x, y };
-}
+
 
 //method for setting target and source 🎯⛳
-const set = (className, x = -1, y = -1) => {
+function set(className, x = -1, y = -1) {
     if (isValid(x, y)) {
         matrix[x][y].classList.add(className);
-        return { x, y };
     }
     else {
-        cordinate = getRandomCordinate();
-        matrix[cordinate.x][cordinate.y].classList.add(className);
-        return cordinate
+        x = Math.floor(Math.random() * row);
+        y = Math.floor(Math.random() * col);
+        matrix[x][y].classList.add(className);
     }
+    return { x, y };
 }
 
 let source = set('source');
 let target = set('target');
-
 
 
 
@@ -81,6 +93,9 @@ const clearNavOption = () => {
     navOptions.forEach((option) => {
         option.classList.remove('active');
     })
+}
+const clearDropMenu = () => {
+
     document.querySelectorAll('.drop-menu').forEach((menu) => {
         menu.classList.remove('active');
     })
@@ -90,14 +105,19 @@ const clearNavOption = () => {
 //NAVIGATION click 🔵👆
 const navOptions = document.querySelectorAll('.nav-menu>li>a');
 
-document.querySelectorAll('.drop-menu').forEach((menu) => {
-    menu.classList.remove('active');
-})
+
 
 navOptions.forEach((option) => {
     option.addEventListener('click', () => {
         //clearify
+        if (option.classList.contains('drop-toggle') && option.classList.contains('active')) {
+            option.classList.remove('active');
+            clearDropMenu();
+            return;
+        }
         clearNavOption();
+        clearDropMenu();
+
 
         //adding 
         option.classList.add('active');
@@ -114,6 +134,7 @@ navOptions.forEach((option) => {
 document.addEventListener('click', (event) => {
     if (!document.querySelector('.nav-menu').contains(event.target)) {
         clearNavOption();
+        clearDropMenu();
     }
 })
 
@@ -121,16 +142,18 @@ document.addEventListener('click', (event) => {
 //'dropMenu' OPTION CLICK 📃👆
 const dropMenus = document.querySelectorAll('.drop-menu');
 const dropOptions = document.querySelectorAll('.drop-menu a');
+const clearDropOption = ()=>{
+    dropOptions.forEach(option=>{
+        option.classList.remove('active');
+    })
+}
 var algorithm = '';
 dropOptions.forEach((option) => {
     option.addEventListener('click', () => {
         //clearify
-        dropOptions.forEach((option) => {
-            option.classList.remove('active');
-        })
-        dropMenus.forEach((dropmenu) => {
-            dropmenu.classList.remove('active');
-        })
+        clearDropMenu();
+        clearNavOption();
+        clearDropOption();
 
         //adding
         option.classList.add('active');
@@ -145,8 +168,17 @@ dropOptions.forEach((option) => {
 
 
 
+const guide = document.querySelector('.guide');
+const guideToggle = document.querySelector('.guide-toggle');
+guideToggle.addEventListener('click', () => {
+    guide.classList.toggle('active');
+})
 
+document.addEventListener('click', (e) => {
+    if (!guideToggle.contains(e.target))
+        guide.classList.remove('active');
 
+})
 
 
 
@@ -154,81 +186,83 @@ dropOptions.forEach((option) => {
 // ================= BOARD INTERATION 🎨🖌️ =================
 // ==========================================================
 
-const cells = document.querySelectorAll('.col');
-let draging = false;
-let drawing = false;
-let dragStart = null;
-
-cells.forEach((cell) => {
-    const pointDown = (e) => {
-        if (e.target.classList.contains('source')) {
-            dragStart = 'source';
-            draging = true;
-        }
-        else if (e.target.classList.contains('target')) {
-            dragStart = 'target';
-            draging = true;
-        }
-        else {
-            drawing = true;
-        }
-    }
-
-    const pointUp = () => {
-        drawing = false;
-        draging = false;
-        dragStart = null;
-    }
-
-    const pointMove = (e) => {
-        const triggerElement = document.elementFromPoint(e.clientX, e.clientY);
-        if (triggerElement == null || !triggerElement.classList.contains('col')) return;
-        cordinate = { ...triggerElement.id.split('-') };
-
-        if (draging && dragStart) {
-
-            cells.forEach(cell => {
-                cell.classList.remove(dragStart);
-            })
-            triggerElement.classList.add(dragStart);
-
-            if (dragStart === 'source') {
-                source.x = Number(cordinate[0]);
-                source.y = Number(cordinate[1]);
+function boardInteration(cells) {
+    let draging = false;
+    let drawing = false;
+    let dragStart = null;
+    cells.forEach((cell) => {
+        const pointDown = (e) => {
+            if (e.target.classList.contains('source')) {
+                dragStart = 'source';
+                draging = true;
+            }
+            else if (e.target.classList.contains('target')) {
+                dragStart = 'target';
+                draging = true;
             }
             else {
-                target.x = Number(cordinate[0]);
-                target.y = Number(cordinate[1]);
+                drawing = true;
             }
         }
 
-
-        else if (drawing) {
-            if(triggerElement.classList.contains('source') || triggerElement.classList.contains('target'))
-            return;
-        
-            const x = Number(cordinate[0]);
-            const y = Number(cordinate[1]);
-            
-            matrix[x][y].setAttribute('class', 'col wall');
+        const pointUp = () => {
+            drawing = false;
+            draging = false;
+            dragStart = null;
+            matrix[source.x][source.y].classList.remove('wall');
+            matrix[target.x][target.y].classList.remove('wall');
         }
 
+        const pointMove = (e) => {
+            const triggerElement = document.elementFromPoint(e.clientX, e.clientY);
+            if (triggerElement == null || !triggerElement.classList.contains('col')) return;
+            cordinate = { ...triggerElement.id.split('-') };
 
-    }
+            if (draging && dragStart) {
 
-    cell.addEventListener('pointerdown', pointDown);
-    cell.addEventListener('pointermove', pointMove);
-    cell.addEventListener('pointerup', pointUp);
+                cells.forEach(cell => {
+                    cell.classList.remove(dragStart);
+                })
+                triggerElement.classList.add(dragStart);
 
-    cell.addEventListener('click', () => {
-        if (cell.classList.contains('source') || cell.classList.contains('target'))
-            return;
+                if (dragStart === 'source') {
+                    source.x = Number(cordinate[0]);
+                    source.y = Number(cordinate[1]);
+                }
+                else {
+                    target.x = Number(cordinate[0]);
+                    target.y = Number(cordinate[1]);
+                }
+            }
 
-        cell.classList.remove('visited', 'path');
-        cell.classList.toggle('wall');
+
+            else if (drawing) {
+                if (triggerElement.classList.contains('source') || triggerElement.classList.contains('target'))
+                    return;
+
+                const x = Number(cordinate[0]);
+                const y = Number(cordinate[1]);
+
+                matrix[x][y].setAttribute('class', 'col wall');
+            }
+
+
+        }
+
+        cell.addEventListener('pointerdown', pointDown);
+        cell.addEventListener('pointermove', pointMove);
+        cell.addEventListener('pointerup', pointUp);
+
+        cell.addEventListener('click', () => {
+            if (cell.classList.contains('source') || cell.classList.contains('target'))
+                return;
+
+            cell.classList.remove('visited', 'path');
+            cell.classList.toggle('wall');
+        })
     })
-})
 
+}
 
 
 
@@ -241,6 +275,36 @@ cells.forEach((cell) => {
 const visualizeBtn = document.getElementById('visualize');
 const clearPathBtn = document.querySelector('#clear-path');
 const clearBoardBtn = document.querySelector('#clear-board');
+const generateMazeBtn = document.querySelector('#generate-maze');
+const speedOptions = document.querySelectorAll('#speed .drop-menu a');
+
+var speed = 3;
+speedOptions.forEach((option) => {
+    option.addEventListener('click', () => {
+        let pickedSpeed = option.innerText;
+        if (pickedSpeed === 'Fast') speed = 5;
+        else if (pickedSpeed === 'normal') speed = 3;
+        else speed = 1;
+    })
+})
+
+//sortcuts
+
+window.addEventListener('keydown', (e) => {
+    switch (e.keyCode) {
+        case 32:    visualizeBtn.click();     break;
+        case 77:    generateMazeBtn.click();  break;
+        case 67:    clearBoard();  break;
+        case 66:    algorithm = "BFS";  break;
+        case 68:    algorithm = "Dijkstra\'s";  break;
+        case 65:    algorithm = "A*";  break;
+        case 71:    algorithm = "Greedy";  break;
+        default:
+            break;
+    }
+    visualizeBtn.innerText = `Visualize ${algorithm}`;
+})
+
 
 const clearPath = () => {
     cells.forEach((cell) => {
@@ -254,8 +318,16 @@ const clearBoard = () => {
     })
 }
 
+
+
 clearPathBtn.addEventListener('click', clearPath);
 clearBoardBtn.addEventListener('click', clearBoard);
+generateMazeBtn.addEventListener('click', () => {
+    clearBoard();
+    recursiveDivisionMaze(0, row - 1, 0, col - 1, 'horizontal', false);
+});
+
+
 visualizeBtn.addEventListener('click', () => {
     clearPath();
     switch (algorithm) {
@@ -266,7 +338,6 @@ visualizeBtn.addEventListener('click', () => {
         case 'A*': Astar(); break;
         default: break;
     }
-
 });
 
 
@@ -295,8 +366,9 @@ function BFS() {
     const parent = new Map();
     queue.push(source);
     visited.add(`${source.x}-${source.y}`);
-
+    let i = 0;
     function visualize() {
+        i++;
         if (queue.length <= 0) return;
 
         const current = queue.shift();
@@ -330,7 +402,10 @@ function BFS() {
                 parent.set(key, current);
             }
         }
-        requestAnimationFrame(visualize);
+        if (i % speed === 0)
+            requestAnimationFrame(visualize);
+        else
+            visualize();
 
     }
 
@@ -338,7 +413,6 @@ function BFS() {
 }
 
 function Dijkstra() {
-    console.log('hello');
     const distances = new Map();
     const parent = new Map();
     const visited = new Set();
@@ -351,8 +425,9 @@ function Dijkstra() {
     }
 
     distances.set(`${source.x}-${source.y}`, 0);
-
+    let i = 0;
     function visualize() {
+        i++;
         if (visited.size === row * col) return;
 
         let current;
@@ -367,7 +442,7 @@ function Dijkstra() {
                 }
             }
         }
-
+        if(!current) return;
         visited.add(`${current.x}-${current.y}`);
 
         if (current.x === target.x && current.y === target.y) {
@@ -398,8 +473,10 @@ function Dijkstra() {
                 }
             }
         }
-
-        requestAnimationFrame(visualize);
+        if (i % speed === 0)
+            requestAnimationFrame(visualize);
+        else
+            visualize();
     }
 
     visualize();
@@ -418,8 +495,9 @@ function Astar() {
     function heuristic(node, target) {
         return Math.abs(node.x - target.x) + Math.abs(node.y - target.y);
     }
-
+    let i = 0;
     function visualize() {
+        i++;
         if (openSet.length <= 0) return;
 
         let current;
@@ -474,7 +552,10 @@ function Astar() {
             }
         }
 
-        requestAnimationFrame(visualize);
+        if (i % speed === 0)
+            requestAnimationFrame(visualize);
+        else
+            visualize();
     }
 
     visualize();
@@ -494,7 +575,9 @@ function greedy() {
         return Math.abs(node.x - target.x) + Math.abs(node.y - target.y);
     }
 
+    let i = 0;
     function visualize() {
+        i++;
         if (priorityQueue.isEmpty()) return;
 
         const current = priorityQueue.dequeue();
@@ -532,8 +615,15 @@ function greedy() {
                 queued.add(key);
             }
         }
-        requestAnimationFrame(visualize);
-        // setTimeout(visualize, 200);
+        //greedy fast hai isiliye isko thora slow krna jaruri hai, taki bakiyo ke jaise hi lage
+        let mySpeed = 1;
+        if (speed >= 3)
+            mySpeed = speed - 2;
+
+        if (i % mySpeed === 0)
+            requestAnimationFrame(visualize);
+        else
+            visualize();
     }
 
     visualize();
@@ -560,4 +650,117 @@ class PriorityQueue {
     sort() {
         this.elements.sort((a, b) => a.priority - b.priority);
     }
+}
+
+
+async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls) {
+    if (rowEnd < rowStart || colEnd < colStart) {
+        return;
+    }
+
+    if (!surroundingWalls) {
+        //Drawing top & bottom Boundary Wall
+        for (let i = 0; i < col; i++) {
+            if (matrix[0][i].classList.contains('source') || matrix[0][i].classList.contains('target'))
+                continue;
+            
+            matrix[0][i].setAttribute('class', 'col wall');
+
+            if (matrix[row - 1][i].classList.contains('source') || matrix[row - 1][i].classList.contains('target'))
+                continue;
+            matrix[row - 1][i].setAttribute('class', 'col wall');
+        }
+        
+        //Drawing left & right Boundar wall
+        for (let i = 0; i < row; i++) {
+            if (matrix[i][0].classList.contains('source') || matrix[i][0].classList.contains('target'))
+            continue;
+
+            matrix[i][0].setAttribute('class', 'col wall');
+
+            if (matrix[i][col - 1].classList.contains('source') || matrix[i][0].classList.contains('target'))
+                continue;
+            matrix[i][col - 1].setAttribute('class', 'col wall');
+        }
+        surroundingWalls = true;
+    }
+
+    //=========== horizontal ======
+    if (orientation === "horizontal") {
+        let possibleRows = [];
+        for (let i = rowStart; i <= rowEnd; i += 2) {
+            if (i == 0 || i == row - 1) continue;
+            possibleRows.push(i);
+        }
+        let possibleCols = [];
+        for (let i = colStart - 1; i <= colEnd + 1; i += 2) {
+            if (i <= 0 || i >= col - 1) continue;
+            possibleCols.push(i);
+        }
+
+        let currentRow = possibleRows[Math.floor(Math.random() * possibleRows.length)];
+        let colRandom = possibleCols[Math.floor(Math.random() * possibleCols.length)];
+
+        //drawing horizontal wall
+        for (i = colStart - 1; i <= colEnd + 1; i++) {
+            const cell = matrix[currentRow][i];
+            if (!cell || i === colRandom || cell.classList.contains('source') || cell.classList.contains('target'))
+                continue;
+            
+            cell.setAttribute('class', 'col wall');
+        }
+
+
+        if (currentRow - 2 - rowStart > colEnd - colStart) {
+            recursiveDivisionMaze(rowStart, currentRow - 2, colStart, colEnd, orientation, surroundingWalls);
+        } else {
+            recursiveDivisionMaze(rowStart, currentRow - 2, colStart, colEnd, "vertical", surroundingWalls);
+        }
+        if (rowEnd - (currentRow + 2) > colEnd - colStart) {
+            recursiveDivisionMaze(currentRow + 2, rowEnd, colStart, colEnd, orientation, surroundingWalls);
+        } else {
+            recursiveDivisionMaze(currentRow + 2, rowEnd, colStart, colEnd, "vertical", surroundingWalls);
+        }
+    }
+
+    //=========== vertical ======
+    else if (orientation === 'vertical') {
+        let possibleCols = [];
+        for (let i = colStart; i <= colEnd; i += 2) {
+            possibleCols.push(i);
+        }
+        let possibleRows = [];
+        for (let i = rowStart - 1; i <= rowEnd + 1; i += 2) {
+            if (i <= 0 || i >= row - 1) continue;
+            possibleRows.push(i);
+        }
+
+        let currentCol = possibleCols[Math.floor(Math.random() * possibleCols.length)];
+        let rowRandom = possibleRows[Math.floor(Math.random() * possibleRows.length)];
+
+        //drawing vertical wall
+        for (i = rowStart - 1; i <= rowEnd + 1; i++) {
+            if (!matrix[i]) continue;
+
+            const cell = matrix[i][currentCol];
+            if (i === rowRandom || cell.classList.contains('source') || cell.classList.contains('target'))
+                continue;
+            cell.setAttribute('class', 'col wall');
+        }
+
+        if (rowEnd - rowStart > currentCol - 2 - colStart) {
+            recursiveDivisionMaze(rowStart, rowEnd, colStart, currentCol - 2, "horizontal", surroundingWalls);
+        } else {
+            recursiveDivisionMaze(rowStart, rowEnd, colStart, currentCol - 2, orientation, surroundingWalls);
+        }
+        if (rowEnd - rowStart > colEnd - (currentCol + 2)) {
+            recursiveDivisionMaze(rowStart, rowEnd, currentCol + 2, colEnd, "horizontal", surroundingWalls);
+        } else {
+            recursiveDivisionMaze(rowStart, rowEnd, currentCol + 2, colEnd, orientation, surroundingWalls);
+        }
+    }
+};
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
