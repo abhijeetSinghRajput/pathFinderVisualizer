@@ -10,20 +10,20 @@ const tutorial = document.querySelector('#tutorial');
 const tutorialToggle = document.querySelector('.tutorial-toggle');
 
 const visited = localStorage.getItem('visited');
-if(!visited){
+if (!visited) {
     tutorial.classList.add('active');
-    localStorage.setItem('visited','true');
+    localStorage.setItem('visited', 'true');
 }
 
-tutorial.addEventListener('click',(e)=>{
-    if(e.target.classList.contains('tutorial')){
+tutorial.addEventListener('click', (e) => {
+    if (e.target.classList.contains('tutorial')) {
         skipBtn.style.animation = ".2s shake 2 ease-in-out";
-        setTimeout(()=>{
+        setTimeout(() => {
             skipBtn.style.animation = "none";
-        },1000);
+        }, 1000);
     }
 })
-tutorialToggle.addEventListener('click',()=>{
+tutorialToggle.addEventListener('click', () => {
     tutorial.classList.add('active');
     count = 0;
     nextBtn.innerText = "next";
@@ -46,7 +46,7 @@ nextBtn.addEventListener('click', () => {
         return;
     }
     count++;
-    if(count == slides.length-1){
+    if (count == slides.length - 1) {
         nextBtn.innerText = "finish";
     }
     moveSlides(count);
@@ -59,28 +59,28 @@ prevBtn.addEventListener('click', () => {
     }
     nextBtn.innerText = "next";
     count--;
-    if(count == 0){
+    if (count == 0) {
         prevBtn.classList.add('unactive');
     }
     moveSlides(count);
 });
 
 const dot = document.querySelector(".dots");
-for(let i = 0; i<slides.length; i++){
-    dot.innerHTML += `<div class="dot ${i === 0? "active" : ""}"></div>`
+for (let i = 0; i < slides.length; i++) {
+    dot.innerHTML += `<div class="dot ${i === 0 ? "active" : ""}"></div>`
 }
 const dots = document.querySelectorAll(".dot");
 
-dots.forEach((dot, i)=>{
-    dot.addEventListener('click',()=>{
+dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
         count = i;
-        if(count == 0){
+        if (count == 0) {
             prevBtn.classList.add('unactive');
         }
-        else if(count == slides.length-1){
+        else if (count == slides.length - 1) {
             nextBtn.innerText = "finish";
         }
-        else{
+        else {
             prevBtn.classList.remove('unactive');
             nextBtn.innerText = "next";
         }
@@ -89,9 +89,10 @@ dots.forEach((dot, i)=>{
 })
 
 function moveSlides(count) {
-    dots.forEach(dot=>{
+    dots.forEach(dot => {
         dot.classList.remove('active');
     })
+
     dots[count].classList.add('active');
 
     slides.forEach((slide) => {
@@ -99,6 +100,14 @@ function moveSlides(count) {
     });
 }
 
+window.addEventListener('keydown', (e) => {
+    if (e.keyCode == 37) {
+        prevBtn.click();
+    }
+    else if (e.keyCode == 39) {
+        nextBtn.click();
+    }
+})
 
 
 
@@ -254,10 +263,10 @@ document.addEventListener('click', (event) => {
 const dropMenus = document.querySelectorAll('.drop-menu');
 const dropOptions = document.querySelectorAll('.drop-menu a');
 
-const clearDropOption = ()=>{
-   document.querySelectorAll('.drop-menu.active a').forEach(option=>{
-    option.classList.remove('active');
-   })
+const clearDropOption = () => {
+    document.querySelectorAll('.drop-menu.active a').forEach(option => {
+        option.classList.remove('active');
+    })
 }
 
 var algorithm = '';
@@ -406,13 +415,13 @@ speedOptions.forEach((option) => {
 
 window.addEventListener('keydown', (e) => {
     switch (e.keyCode) {
-        case 32:    visualizeBtn.click();     break;
-        case 77:    generateMazeBtn.click();  break;
-        case 67:    clearBoard();  break;
-        case 66:    algorithm = "BFS";  break;
-        case 68:    algorithm = "Dijkstra\'s";  break;
-        case 65:    algorithm = "A*";  break;
-        case 71:    algorithm = "Greedy";  break;
+        case 32: visualizeBtn.click(); break;
+        case 77: generateMazeBtn.click(); break;
+        case 67: clearBoard(); break;
+        case 66: algorithm = "BFS"; break;
+        case 68: algorithm = "Dijkstra\'s"; break;
+        case 65: algorithm = "A*"; break;
+        case 71: algorithm = "Greedy"; break;
         default:
             break;
     }
@@ -556,7 +565,7 @@ function Dijkstra() {
                 }
             }
         }
-        if(!current) return;
+        if (!current) return;
         visited.add(`${current.x}-${current.y}`);
 
         if (current.x === target.x && current.y === target.y) {
@@ -777,18 +786,18 @@ async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orienta
         for (let i = 0; i < col; i++) {
             if (matrix[0][i].classList.contains('source') || matrix[0][i].classList.contains('target'))
                 continue;
-            
+
             matrix[0][i].setAttribute('class', 'col wall');
 
             if (matrix[row - 1][i].classList.contains('source') || matrix[row - 1][i].classList.contains('target'))
                 continue;
             matrix[row - 1][i].setAttribute('class', 'col wall');
         }
-        
+
         //Drawing left & right Boundar wall
         for (let i = 0; i < row; i++) {
             if (matrix[i][0].classList.contains('source') || matrix[i][0].classList.contains('target'))
-            continue;
+                continue;
 
             matrix[i][0].setAttribute('class', 'col wall');
 
@@ -820,7 +829,7 @@ async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orienta
             const cell = matrix[currentRow][i];
             if (!cell || i === colRandom || cell.classList.contains('source') || cell.classList.contains('target'))
                 continue;
-            
+
             cell.setAttribute('class', 'col wall');
         }
 
