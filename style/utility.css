@@ -11,11 +11,9 @@
     --wall-clr : rgb(12, 53, 71);
     --visited-clr : rgba(0, 190, 218, 0.75);
     --path-clr : rgb(255, 254, 106);
+    --text-light: #515067;
 }
-.btn.unactive{
-    opacity: .8;
-    cursor: not-allowed;
-}
+
 span.carret{
     display: inline-block;
     aspect-ratio: 1;
@@ -48,6 +46,7 @@ span.carret{
 }
 
 .btn{
+    user-select: none;
     white-space: nowrap;
     cursor: pointer;
     border: none;
@@ -58,12 +57,15 @@ span.carret{
     color: white;
     font-weight: 600;
 }
-
+.btn.unactive{
+    opacity: .8;
+    cursor: default;
+}
 .source{
-    background: url(../assets/source.svg);
+    background: url(../assets/icon/source.svg);
 }
 .target{
-    background: url(../assets/target.svg);
+    background: url(../assets/icon/target.svg);
 }
 
 /* =================== animations =================== */
