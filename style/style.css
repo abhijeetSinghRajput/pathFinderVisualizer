@@ -75,7 +75,15 @@ body {
 }
 .card .bottom .right{
     display: flex;
-    gap: 8px;
+    gap: 2px;
+}
+.card .bottom .right .btn:first-child{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.card .bottom .right .btn:last-child{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 .card .bottom .btn{
     font-weight: 500;
@@ -132,7 +140,7 @@ body {
     text-transform: capitalize;
 }
 .slide p{
-    font-size: 13px;
+    font-size: 14px;
     color: var(--light-text);
     background-color: white;
 }
@@ -357,8 +365,11 @@ nav {
         grid-column: 3/-1;
         width: 100%;
     }
+    .card{
+        margin: 0;
+    }
     .card .bottom .btn{
-        padding: 14px 30px;
+        padding: 12px 24px;
         font-size: 14px;
     }
     #logo {
