@@ -55,10 +55,7 @@ body {
     overflow: hidden;
     box-shadow: rgba(29, 32, 34, 0.434) 0px 8px 24px;
 }
-.btn.unactive{
-    opacity: 0.5;
-    cursor: default;
-}
+
 .card .upper{
     height: 100%;
     min-height: 350px;
@@ -397,6 +394,7 @@ nav {
         font-size: 10px;
     }
     .guide{
+        width: 100%;
         position: absolute;
         background-color: white;
         bottom: 0px;

@@ -58,7 +58,7 @@ span.carret{
     font-weight: 600;
 }
 .btn.unactive{
-    opacity: .8;
+    opacity: .5;
     cursor: default;
 }
 .source{

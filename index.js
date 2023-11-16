@@ -253,18 +253,20 @@ document.addEventListener('click', (event) => {
 //'dropMenu' OPTION CLICK 📃👆
 const dropMenus = document.querySelectorAll('.drop-menu');
 const dropOptions = document.querySelectorAll('.drop-menu a');
+
 const clearDropOption = ()=>{
-    document.querySelectorAll('.drop-menu.active a').forEach(option=>{
-        option.classList.remove('active');
-    })
+   document.querySelectorAll('.drop-menu.active a').forEach(option=>{
+    option.classList.remove('active');
+   })
 }
+
 var algorithm = '';
 dropOptions.forEach((option) => {
     option.addEventListener('click', () => {
         //clearify
+        clearDropOption();
         clearDropMenu();
         clearNavOption();
-        clearDropOption();
 
         //adding
         option.classList.add('active');
@@ -278,6 +280,7 @@ dropOptions.forEach((option) => {
 })
 
 
+//========== GUIDE TOGGLE ⏬⏬
 
 const guide = document.querySelector('.guide');
 const guideToggle = document.querySelector('.guide-toggle');
