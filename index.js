@@ -414,6 +414,9 @@ speedOptions.forEach((option) => {
     })
 })
 
+if(window.innerWidth <= 662){
+    delay += 5;
+}
 //sortcuts
 
 window.addEventListener('keydown', (e) => {
