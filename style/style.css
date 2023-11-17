@@ -367,10 +367,14 @@ nav {
 
 
 @media screen and (max-width: 662px){
-    .btn {
+    #visualize {
         justify-self: end;
         grid-column: 3/-1;
         width: 100%;
+        padding: 12px 0;
+        margin-top: 8px;
+        margin-bottom: 12px;
+        min-width: 180px;
     }
     .card{
         margin: 0;

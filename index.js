@@ -101,10 +101,10 @@ function moveSlides(count) {
 }
 
 window.addEventListener('keydown', (e) => {
-    if (e.keyCode == 37) {
+    if (e.keyCode == 37 || e.keyCode == 74) {
         prevBtn.click();
     }
-    else if (e.keyCode == 39) {
+    else if (e.keyCode == 39 || e.keyCode == 76) {
         nextBtn.click();
     }
 })
@@ -147,6 +147,9 @@ function renderMap() {
     matrix = [];
     col = parseInt(board.clientWidth / width);
     row = parseInt(board.clientHeight / width);
+    if(window.innerWidth <= 662){
+        row -= 1;
+    }
 
     board.innerHTML = '';
     for (let i = 0; i < row; i++) {
@@ -401,13 +404,13 @@ const clearBoardBtn = document.querySelector('#clear-board');
 const generateMazeBtn = document.querySelector('#generate-maze');
 const speedOptions = document.querySelectorAll('#speed .drop-menu a');
 
-var speed = 3;
+var delay = 7;
 speedOptions.forEach((option) => {
     option.addEventListener('click', () => {
         let pickedSpeed = option.innerText;
-        if (pickedSpeed === 'Fast') speed = 5;
-        else if (pickedSpeed === 'normal') speed = 3;
-        else speed = 1;
+        if (pickedSpeed === 'Fast') delay = 4;
+        else if (pickedSpeed === 'normal') delay = 7;
+        else delay = 15;
     })
 })
 
@@ -442,17 +445,24 @@ const clearBoard = () => {
 }
 
 
-
 clearPathBtn.addEventListener('click', clearPath);
 clearBoardBtn.addEventListener('click', clearBoard);
+let wallToAnimate;
 generateMazeBtn.addEventListener('click', () => {
     clearBoard();
+    wallToAnimate = [];
+
     recursiveDivisionMaze(0, row - 1, 0, col - 1, 'horizontal', false);
+    animate(wallToAnimate, 'wall');
 });
 
 
+let searchToAnimate;
+let pathToAnimate;
 visualizeBtn.addEventListener('click', () => {
     clearPath();
+    searchToAnimate = [];
+    pathToAnimate = [];
     switch (algorithm) {
         case '': BFS(); break;
         case 'BFS': BFS(); break;
@@ -461,8 +471,25 @@ visualizeBtn.addEventListener('click', () => {
         case 'A*': Astar(); break;
         default: break;
     }
+
+    animate(searchToAnimate, 'visited');
 });
 
+function animate(list, className) {
+    for (let i = 0; i < list.length; i++) {
+        setTimeout(() => {
+            if (className === 'wall')
+                list[i].setAttribute('class', `col ${className}`);
+            else
+                list[i].classList.add(className);
+
+            //after searching is done animate the path
+            if(className == 'visited' && i == list.length-1){
+                animate(pathToAnimate, 'path');
+            }
+        }, (className === 'path') ? i * (delay + 20) : i * delay);
+    }
+}
 
 
 
@@ -474,13 +501,12 @@ visualizeBtn.addEventListener('click', () => {
 // =================== ALGORITHMS ⚙️🦾 =====================
 // ==========================================================
 
-function drawPath(parents, node) {
-    if (node === source || node === undefined) return;
-    const { x, y } = node;
-    matrix[x][y].classList.add('path');
-    node = parents.get(`${x}-${y}`);
-    // setTimeout(() => drawPath(parents, node), 50);
-    requestAnimationFrame(() => drawPath(parents, node));
+function generatePath(parents, target) {
+    while (target) {
+        pathToAnimate.push(matrix[target.x][target.y]);
+        if (target == source) return;
+        target = parents.get(`${target.x}-${target.y}`);
+    }
 }
 
 function BFS() {
@@ -489,19 +515,15 @@ function BFS() {
     const parent = new Map();
     queue.push(source);
     visited.add(`${source.x}-${source.y}`);
-    let i = 0;
-    function visualize() {
-        i++;
-        if (queue.length <= 0) return;
 
+    while (queue.length > 0) {
         const current = queue.shift();
 
         if (current.x === target.x && current.y === target.y) {
-            drawPath(parent, target);
+            generatePath(parent, target);
             return;
         }
-        matrix[current.x][current.y].classList.remove('unvisited');
-        matrix[current.x][current.y].classList.add('visited');
+        searchToAnimate.push(matrix[current.x][current.y]);
 
         const neighbours = [
             { x: current.x + 1, y: current.y },
@@ -525,14 +547,8 @@ function BFS() {
                 parent.set(key, current);
             }
         }
-        if (i % speed === 0)
-            requestAnimationFrame(visualize);
-        else
-            visualize();
-
     }
 
-    visualize();
 }
 
 function Dijkstra() {
@@ -548,10 +564,8 @@ function Dijkstra() {
     }
 
     distances.set(`${source.x}-${source.y}`, 0);
-    let i = 0;
-    function visualize() {
-        i++;
-        if (visited.size === row * col) return;
+
+    while (true) {
 
         let current;
         let minDistance = Infinity;
@@ -565,17 +579,17 @@ function Dijkstra() {
                 }
             }
         }
+
         if (!current) return;
+
         visited.add(`${current.x}-${current.y}`);
 
         if (current.x === target.x && current.y === target.y) {
-            drawPath(parent, target);
+            generatePath(parent, target);
             return;
         }
 
-        matrix[current.x][current.y].classList.remove('unvisited');
-        matrix[current.x][current.y].classList.add('visited');
-
+        searchToAnimate.push(matrix[current.x][current.y]);
         const neighbours = [
             { x: current.x + 1, y: current.y },
             { x: current.x - 1, y: current.y },
@@ -596,13 +610,7 @@ function Dijkstra() {
                 }
             }
         }
-        if (i % speed === 0)
-            requestAnimationFrame(visualize);
-        else
-            visualize();
     }
-
-    visualize();
 }
 
 function Astar() {
@@ -618,10 +626,8 @@ function Astar() {
     function heuristic(node, target) {
         return Math.abs(node.x - target.x) + Math.abs(node.y - target.y);
     }
-    let i = 0;
-    function visualize() {
-        i++;
-        if (openSet.length <= 0) return;
+
+    while (openSet.length > 0) {
 
         let current;
         let minFScore = Infinity;
@@ -637,15 +643,14 @@ function Astar() {
         const [currentX, currentY] = current;
 
         if (currentX === target.x && currentY === target.y) {
-            drawPath(parent, target);
+            generatePath(parent, target);
             return;
         }
 
         openSet.splice(openSet.indexOf(`${currentX}-${currentY}`), 1);
         closedSet.add(`${currentX}-${currentY}`);
 
-        matrix[currentX][currentY].classList.remove('unvisited');
-        matrix[currentX][currentY].classList.add('visited');
+        searchToAnimate.push(matrix[currentX][currentY]);
 
         const neighbours = [
             { x: currentX + 1, y: currentY },
@@ -674,14 +679,8 @@ function Astar() {
                 fScore.set(key, gScore.get(key) + heuristic(neighbour, target));
             }
         }
-
-        if (i % speed === 0)
-            requestAnimationFrame(visualize);
-        else
-            visualize();
     }
 
-    visualize();
 }
 
 
@@ -698,24 +697,20 @@ function greedy() {
         return Math.abs(node.x - target.x) + Math.abs(node.y - target.y);
     }
 
-    let i = 0;
-    function visualize() {
-        i++;
-        if (priorityQueue.isEmpty()) return;
+    while (!priorityQueue.isEmpty()) {
 
         const current = priorityQueue.dequeue();
         const { x, y } = current;
         queued.delete(`${x}-${y}`);
 
         if (x === target.x && y === target.y) {
-            drawPath(parent, target);
+            generatePath(parent, target);
             return;
         }
 
         visited.add(`${x}-${y}`);
 
-        matrix[x][y].classList.remove('unvisited');
-        matrix[x][y].classList.add('visited');
+        searchToAnimate.push(matrix[x][y]);
 
         const neighbours = [
             { x: x + 1, y },
@@ -738,18 +733,8 @@ function greedy() {
                 queued.add(key);
             }
         }
-        //greedy fast hai isiliye isko thora slow krna jaruri hai, taki bakiyo ke jaise hi lage
-        let mySpeed = 1;
-        if (speed >= 3)
-            mySpeed = speed - 2;
-
-        if (i % mySpeed === 0)
-            requestAnimationFrame(visualize);
-        else
-            visualize();
     }
 
-    visualize();
 }
 
 class PriorityQueue {
@@ -776,7 +761,8 @@ class PriorityQueue {
 }
 
 
-async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls) {
+
+function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orientation, surroundingWalls) {
     if (rowEnd < rowStart || colEnd < colStart) {
         return;
     }
@@ -787,23 +773,22 @@ async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orienta
             if (matrix[0][i].classList.contains('source') || matrix[0][i].classList.contains('target'))
                 continue;
 
-            matrix[0][i].setAttribute('class', 'col wall');
+            wallToAnimate.push(matrix[0][i]);
 
             if (matrix[row - 1][i].classList.contains('source') || matrix[row - 1][i].classList.contains('target'))
                 continue;
-            matrix[row - 1][i].setAttribute('class', 'col wall');
+            wallToAnimate.push(matrix[row - 1][i]);
         }
 
         //Drawing left & right Boundar wall
         for (let i = 0; i < row; i++) {
             if (matrix[i][0].classList.contains('source') || matrix[i][0].classList.contains('target'))
                 continue;
-
-            matrix[i][0].setAttribute('class', 'col wall');
+            wallToAnimate.push(matrix[i][0]);
 
             if (matrix[i][col - 1].classList.contains('source') || matrix[i][0].classList.contains('target'))
                 continue;
-            matrix[i][col - 1].setAttribute('class', 'col wall');
+            wallToAnimate.push(matrix[i][col - 1]);
         }
         surroundingWalls = true;
     }
@@ -830,7 +815,7 @@ async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orienta
             if (!cell || i === colRandom || cell.classList.contains('source') || cell.classList.contains('target'))
                 continue;
 
-            cell.setAttribute('class', 'col wall');
+            wallToAnimate.push(cell)
         }
 
 
@@ -868,7 +853,7 @@ async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orienta
             const cell = matrix[i][currentCol];
             if (i === rowRandom || cell.classList.contains('source') || cell.classList.contains('target'))
                 continue;
-            cell.setAttribute('class', 'col wall');
+            wallToAnimate.push(cell)
         }
 
         if (rowEnd - rowStart > currentCol - 2 - colStart) {
@@ -883,7 +868,3 @@ async function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orienta
         }
     }
 };
-
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
