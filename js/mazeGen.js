@@ -32,7 +32,7 @@ function recursiveDivisionMaze(rowStart, rowEnd, colStart, colEnd, orientation, 
                 continue;
             wallToAnimate.push(matrix[i][0]);
 
-            if (matrix[i][col - 1].classList.contains('source') || matrix[i][0].classList.contains('target'))
+            if (matrix[i][col - 1].classList.contains('source') || matrix[i][col - 1].classList.contains('target'))
                 continue;
             wallToAnimate.push(matrix[i][col - 1]);
         }

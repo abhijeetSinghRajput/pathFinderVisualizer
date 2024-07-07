@@ -217,11 +217,10 @@ const clearPathBtn = document.querySelector('#clear-path');
 const clearBoardBtn = document.querySelector('#clear-board');
 const speedOptions = document.querySelectorAll('#speed .drop-menu a');
 
-const fast_AnimateDelay = 10;
-const normal_AnimateDelay = 20;
-const slow_AnimateDelay = 100;
-var delay = (window.innerWidth <= 662)? normal_AnimateDelay + 5 : normal_AnimateDelay;
-
+const fast_AnimateDelay = 7;
+const normal_AnimateDelay = 10;
+const slow_AnimateDelay = 50;
+let delay = normal_AnimateDelay;
 
 speedOptions.forEach((option) => {
     option.addEventListener('click', () => {

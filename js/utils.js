@@ -30,12 +30,14 @@ const clearBoard = () => {
     })
 }
 
-function backtracking(parents, target) {
+function backtrack(parents, target) {
+    let arr = [];
     while (target) {
-        pathToAnimate.push(matrix[target.x][target.y]);
-        if (target == source) return;
+        arr.push(matrix[target.x][target.y]);
+        if (target == source) return arr;
         target = parents.get(`${target.x}-${target.y}`);
     }
+    return arr;
 }
 
 function getNeighbours(current){
@@ -64,11 +66,15 @@ function clearPreviousTimeouts() {
 
 function animate(list, className, delay) {
     clearPreviousTimeouts(); 
+    if(algorithm == 'Bi' && className == 'visited'){
+        delay /= 1.5;
+    }
     for (let i = 0; i < list.length; i++) {
         let timeoutId = setTimeout(() => {
             if (className === 'wall') {
                 list[i].setAttribute('class', `col ${className}`);
             } else {
+                list[i].classList.remove('visited', 'unvisited', 'path');
                 list[i].classList.add(className);
             }
 

@@ -56,11 +56,9 @@ span.carret{
     background-color: var(--primary-clr);
     color: white;
     font-weight: 600;
+    transition: .1s ease-in-out;
 }
-.btn.unactive{
-    opacity: .5;
-    cursor: default;
-}
+
 .source{
     background: url(../assets/icon/source.svg);
 }
