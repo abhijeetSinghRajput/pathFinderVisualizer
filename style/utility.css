@@ -34,11 +34,11 @@ span.carret{
 }
 
 .visited {
-    animation: visitedAnimation 1.5s ease-out forwards;
+    animation: visitedAnimation 1s ease-out forwards;
 }
 
 .path{
-    animation: pathAnimation 1.5s ease-out forwards;
+    animation: pathAnimation 1s ease-out forwards;
 }
 
 .carret{
