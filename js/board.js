@@ -25,6 +25,7 @@ pixels.forEach((pixel) => {
 });
 
 function renderBoard() {
+    console.log('render called');
     matrix = [];
     col = parseInt(board.clientWidth / width);
     row = parseInt(board.clientHeight / width);
