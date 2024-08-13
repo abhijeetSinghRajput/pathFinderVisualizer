@@ -12,7 +12,7 @@ var cells = [];
 const pixels = document.querySelectorAll('#pixel .drop-menu a');
 pixels.forEach((pixel) => {
     pixel.addEventListener('click', () => {
-        width = pixel.innerText.replace('px', '');
+        width = parseInt(pixel.innerText);
         const cells = document.querySelectorAll('.col');
         cells.forEach(cell => {
             document.documentElement.style.setProperty('--cell-width', `${width}px`);
@@ -25,7 +25,6 @@ pixels.forEach((pixel) => {
 });
 
 function renderBoard() {
-    console.log('render called');
     matrix = [];
     col = parseInt(board.clientWidth / width);
     row = parseInt(board.clientHeight / width);

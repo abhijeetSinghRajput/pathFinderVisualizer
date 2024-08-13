@@ -310,7 +310,7 @@ nav {
     gap: 12px;
     border-bottom: 1px solid var(--light-line);
     margin-bottom: 16px;
-    box-shadow: 0px 8px 9px #c4c3fc49;
+    box-shadow: 0px 8px 9px hsla(0, 0%, 0%, 0.1);
 
 }
 
