@@ -1,11 +1,13 @@
 let searchToAnimate;
 let pathToAnimate;
 const visualizeBtn = document.getElementById('visualize');
+const DFS_visited = new Set();
 
 visualizeBtn.addEventListener('click', () => {
     clearPath();
     searchToAnimate = [];
     pathToAnimate = [];
+    DFS_visited.clear();
 
     switch (algorithm) {
         case '': BFS(); break;
@@ -240,7 +242,6 @@ function greedy() {
 // ==========================================================
 // ======================== DFS ⚙️🦾 =======================
 // ==========================================================
-const visited = new Set();
 function DFS(current) {
     //base case
     if (current.x === target.x && current.y === target.y) {
@@ -248,13 +249,13 @@ function DFS(current) {
     }
 
     searchToAnimate.push(matrix[current.x][current.y]);
-    visited.add(`${current.x}-${current.y}`);
+    DFS_visited.add(`${current.x}-${current.y}`);
 
     const neighbours = getNeighbours(current);
 
     for (const neighbour of neighbours) {
         if (isValid(neighbour.x, neighbour.y) &&
-            !visited.has(`${neighbour.x}-${neighbour.y}`) &&
+            !DFS_visited.has(`${neighbour.x}-${neighbour.y}`) &&
             !matrix[neighbour.x][neighbour.y].classList.contains('wall')) {
             if (DFS(neighbour)) {
                 pathToAnimate.push(matrix[neighbour.x][neighbour.y]);
