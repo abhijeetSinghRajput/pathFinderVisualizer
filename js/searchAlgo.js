@@ -216,7 +216,7 @@ function greedy() {
             return;
         }
 
-        const neighbours = get Neighbours(current);
+        const neighbours = getNeighbours(current);
 
         for (const neighbour of neighbours) {
             const key = `${neighbour.x}-${neighbour.y}`;
