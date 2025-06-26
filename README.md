@@ -9,7 +9,7 @@ A clean, interactive web app built with pure JavaScript to demonstrate Dijkstra'
 
 [▶ **Live Demo**](https://path-explorer.netlify.app) | [🎥 **Video Tutorials**](https://www.youtube.com/watch?v=Oaf9mR9oDT8&list=PLZ92O1inS6VmlSaCzdxm5_Jf2IyJesCF4)
 
-![Banner Image](./assets/screenshots/Bi-directional-bf.png)  
+![Banner Image](./assets/screenshots/Bi-directional-bfs.png)  
 *Watch algorithms find their way through custom mazes!*
 
 ---
