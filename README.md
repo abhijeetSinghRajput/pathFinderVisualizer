@@ -9,7 +9,7 @@ A clean, interactive web app built with pure JavaScript to demonstrate Dijkstra'
 
 [▶ **Live Demo**](https://path-explorer.netlify.app) | [🎥 **Video Tutorials**](https://www.youtube.com/watch?v=Oaf9mR9oDT8&list=PLZ92O1inS6VmlSaCzdxm5_Jf2IyJesCF4)
 
-![Demo Animation](./assets/screenshots/screenshot1.png)  
+![Banner Image](./assets/screenshots/Bi-directional-bf.png)  
 *Watch algorithms find their way through custom mazes!*
 
 ---
@@ -27,25 +27,31 @@ A clean, interactive web app built with pure JavaScript to demonstrate Dijkstra'
   - A* Search (with heuristic visualization)
   - Breadth-First Search (BFS)
   - Depth-First Search (DFS)
+  - Bi-directional BFS (new!)
+  - Greedy Best-First Search
 
 - **Learning Tools**
   - Step-by-step algorithm animation
   - Speed control (slow-mo to fast-forward)
   - Node inspection during visualization
   - Path cost display
-
-- **Developer Friendly**
-  - 100% vanilla JavaScript (no dependencies)
-  - Clean, commented source code
-  - Responsive design (works on mobile)
+  - Tutorial mode (new!)
 
 ---
 
-## 🖥️ Screenshots
+## 🖥️ Screenshots Gallery
 
-| ![Algorithm Visualization](./assets/screenshots/screenshot2.png) | ![Maze Generation](./assets/screenshots/screenshot3.png) |
-|-----------------------------------------------------------------|----------------------------------------------------------|
-| *Visualizing A* algorithm*                                      | *Random maze generation*                                  |
+| ![Tutorial Mode](./assets/screenshots/tutorial.png) | ![A* Algorithm](./assets/screenshots/A-star.png) |
+|----------------------------------------------------|-------------------------------------------------|
+| *Interactive Tutorial Mode*                        | *A* Algorithm Visualization*                   |
+
+| ![Dijkstra's Algorithm](./assets/screenshots/dijkstra.png) | ![Greedy Best-First](./assets/screenshots/greedy.png) |
+|-----------------------------------------------------------|------------------------------------------------------|
+| *Dijkstra's Algorithm in Action*                          | *Greedy Best-First Search*                          |
+
+| ![Maze Generation](./assets/screenshots/maze.png) |
+|---------------------------------------------------|
+| *Random Maze Generation Feature*                  |
 
 ---
 
