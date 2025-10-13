@@ -9,7 +9,7 @@ A clean, interactive web app built with pure JavaScript to demonstrate Dijkstra'
 
 [▶ **Live Demo**](https://path-explorer.netlify.app) | [🎥 **Video Tutorials**](https://www.youtube.com/watch?v=Oaf9mR9oDT8&list=PLZ92O1inS6VmlSaCzdxm5_Jf2IyJesCF4)
 
-![Banner Image](./assets/screenshots/Bi-directional-bfs.png)  
+![Banner Image](./assets/screenshots/Bi-directional-bfs.webp)  
 *Watch algorithms find their way through custom mazes!*
 
 ---
@@ -41,15 +41,15 @@ A clean, interactive web app built with pure JavaScript to demonstrate Dijkstra'
 
 ## 🖥️ Screenshots Gallery
 
-| ![Tutorial Mode](./assets/screenshots/tutorial.png) | ![A* Algorithm](./assets/screenshots/A-star.png) |
+| ![Tutorial Mode](./assets/screenshots/tutorial.webp) | ![A* Algorithm](./assets/screenshots/A-star.webp) |
 |----------------------------------------------------|-------------------------------------------------|
 | *Interactive Tutorial Mode*                        | *A* Algorithm Visualization*                   |
 
-| ![Dijkstra's Algorithm](./assets/screenshots/dijkstra.png) | ![Greedy Best-First](./assets/screenshots/greedy.png) |
+| ![Dijkstra's Algorithm](./assets/screenshots/dijkstra.webp) | ![Greedy Best-First](./assets/screenshots/greedy.webp) |
 |-----------------------------------------------------------|------------------------------------------------------|
 | *Dijkstra's Algorithm in Action*                          | *Greedy Best-First Search*                          |
 
-| ![Maze Generation](./assets/screenshots/maze.png) |
+| ![Maze Generation](./assets/screenshots/maze.webp) |
 |---------------------------------------------------|
 | *Random Maze Generation Feature*                  |
 
