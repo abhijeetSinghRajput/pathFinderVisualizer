@@ -1,6 +1,5 @@
 let searchToAnimate;
 let pathToAnimate;
-const visualizeBtn = document.getElementById('visualize');
 const DFS_visited = new Set();
 
 visualizeBtn.addEventListener('click', () => {

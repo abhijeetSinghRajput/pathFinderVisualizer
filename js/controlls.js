@@ -117,78 +117,73 @@ window.addEventListener('keydown', (e) => {
 // ====================== CLICK EVENTS ======================
 // ==========================================================
 
-const clearNavOption = () => {
-    navOptions.forEach((option) => {
-        option.classList.remove('active');
-    })
-}
-const clearDropMenu = () => {
+const navItems = document.querySelectorAll(".nav-menu > li.drop-box");
+const allDropMenus = document.querySelectorAll(".drop-menu");
+const visualizeBtn = document.getElementById("visualize");
 
-    document.querySelectorAll('.drop-menu').forEach((menu) => {
-        menu.classList.remove('active');
-    })
-}
+let algorithm = "";
 
-//NAVIGATION click 🔵👆
-const navOptions = document.querySelectorAll('.nav-menu>li>a');
-navOptions.forEach((option) => {
-    option.addEventListener('click', () => {
-        //clearify
-        if (option.classList.contains('drop-toggle') && option.classList.contains('active')) {
-            option.classList.remove('active');
-            clearDropMenu();
-            return;
-        }
-        clearNavOption();
-        clearDropMenu();
+// Utility functions
+const clearActiveNav = () => {
+  navItems.forEach(li => li.classList.remove("active"));
+};
+const closeAllMenus = () => {
+  allDropMenus.forEach(menu => menu.classList.remove("active"));
+};
 
+// NAVIGATION click 🔵👆
+navItems.forEach(item => {
+  const trigger = item.querySelector(".dropdown-trigger");
+  const dropMenu = item.querySelector(".drop-menu");
 
-        //adding 
-        option.classList.add('active');
+  trigger.addEventListener("click", e => {
+    e.stopPropagation();
 
-        if (option.classList.contains('drop-toggle')) {
-            const dropMenu = option.nextElementSibling;
-            dropMenu.classList.add('active');
-        }
-    })
-})
+    const isActive = dropMenu.classList.contains("active");
+    closeAllMenus();
+    clearActiveNav();
 
-//OUTSIZE CLICK 🚀👆
-document.addEventListener('click', (event) => {
-    if (!document.querySelector('.nav-menu').contains(event.target)) {
-        clearNavOption();
-        clearDropMenu();
+    if (!isActive) {
+      item.classList.add("active");
+      dropMenu.classList.add("active");
     }
-})
+  });
+});
 
-//'dropMenu' OPTION CLICK 📃👆
-const dropMenus = document.querySelectorAll('.drop-menu');
-const dropOptions = document.querySelectorAll('.drop-menu a');
+// OUTSIDE CLICK 🚀👆
+document.addEventListener("click", e => {
+  if (!e.target.closest(".nav-menu")) {
+    clearActiveNav();
+    closeAllMenus();
+  }
+});
 
-const clearDropOption = () => {
-    document.querySelectorAll('.drop-menu.active a').forEach(option => {
-        option.classList.remove('active');
-    })
-}
+// DROP MENU OPTION CLICK 📃👆
+document.querySelectorAll(".drop-menu li").forEach(option => {
+  option.addEventListener("click", e => {
+    e.stopPropagation();
 
-var algorithm = '';
-dropOptions.forEach((option) => {
-    option.addEventListener('click', () => {
-        //clearify
-        clearDropOption();
-        clearDropMenu();
-        clearNavOption();
+    const currentMenu = option.closest(".drop-menu");
 
-        //adding
-        option.classList.add('active');
+    // clear only inside that dropdown
+    currentMenu.querySelectorAll("li").forEach(li => li.classList.remove("active"));
 
-        if (document.querySelector('#algo').contains(option)) {
-            let text = option.innerText;
-            algorithm = text.split(' ')[0];
-            visualizeBtn.innerText = `Visualize ${algorithm}`;
-        }
-    })
-})
+    // set active only for selected one
+    option.classList.add("active");
+
+    // close menus after selection
+    closeAllMenus();
+    clearActiveNav();
+
+    // algorithm logic
+    const parentBox = option.closest("li.drop-box");
+    if (parentBox?.id === "algo") {
+      const text = option.innerText.trim();
+      algorithm = text.split(" ")[0];
+      visualizeBtn.innerText = `Visualize ${algorithm}`;
+    }
+  });
+});
 
 
 //========== GUIDE TOGGLE ⏬⏬
@@ -215,7 +210,7 @@ document.addEventListener('click', (e) => {
 
 const clearPathBtn = document.querySelector('#clear-path');
 const clearBoardBtn = document.querySelector('#clear-board');
-const speedOptions = document.querySelectorAll('#speed .drop-menu a');
+const speedOptions = document.querySelectorAll('#speed .drop-menu li');
 
 const fast_AnimateDelay = 7;
 const normal_AnimateDelay = 10;
@@ -234,4 +229,3 @@ speedOptions.forEach((option) => {
 
 clearPathBtn.addEventListener('click', clearPath);
 clearBoardBtn.addEventListener('click', clearBoard);
-let wallToAnimate;

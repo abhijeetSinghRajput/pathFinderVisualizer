@@ -1,5 +1,7 @@
 
 const generateMazeBtn = document.querySelector('#generate-maze');
+let wallToAnimate;
+
 generateMazeBtn.addEventListener('click', () => {
     clearBoard();
     wallToAnimate = [];

@@ -1,267 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="index, follow" />
+
+    <meta
+      name="description"
+      content="Interactive Pathfinding Visualizer — visualize BFS, DFS, Dijkstra, A*, and more. Perfect for DSA projects."
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Path Finder Visualizer" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content="Path Finder Visualizer" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://path-explorer.netlify.app/" />
-    <meta property="og:description" content="Interactive pathfinder simulator. Top DSA Projects" />
-    <meta property="og:image" content="https://path-explorer.netlify.app/assets/screenshots/Bi-directional-bfs.webp" />
+    <meta
+      property="og:description"
+      content="Interactive pathfinder simulator. Top DSA Projects"
+    />
+    <meta
+      property="og:image"
+      content="https://path-explorer.netlify.app/assets/og.png"
+    />
 
     <!-- Twitter -->
-    <meta property="twitter:title" content="Path Finder Visualizer" />
-    <meta property="twitter:card" content="https://path-explorer.netlify.app/assets/Bi-directional-bfs.webp" />
-    <meta property="twitter:url" content="https://path-explorer.netlify.app/" />
-    <meta property="twitter:description" content="Interactive pathfinder simulator. Top DSA Projects" />
-    <meta property="twitter:image" content="https://path-explorer.netlify.app/assets/screenshots/Bi-directional-bfs.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Path Finder Visualizer" />
+    <meta
+      name="twitter:description"
+      content="Interactive pathfinder simulator. Top DSA Projects"
+    />
+    <meta
+      name="twitter:image"
+      content="https://path-explorer.netlify.app/assets/og.png"
+    />
+    <meta name="twitter:url" content="https://path-explorer.netlify.app/" />
 
     <title>Path Finder Visualizer</title>
-    <link rel="stylesheet" href="./style/style.css">
-    <link rel="stylesheet" href="./style/utility.css">
+    <link rel="stylesheet" href="./style/utility.css" />
+    <link rel="stylesheet" href="./style/style.css" />
+  </head>
 
-</head>
-
-<body class="light">
-
+  <body class="light">
     <div class="tutorial" id="tutorial">
-        <div class="card">
-            <div class="upper">
-                <!-- -------- WHAT -->
-                <div class="slide">
-                    <h4>what is path finder visualizer</h4>
-                    <div class="img-box"></div>
-                    <p>It helps you see how path finding <span class="blue">algorithms</span> find the most efficient
-                        <span class="blue">route</span> between source to target on a grid. </p>
-                </div>
+      <div class="card">
+        <div class="upper">
+          <!-- -------- WHAT -->
+          <div class="slide">
+            <h2>what is path finder visualizer</h2>
+            <div class="img-box"></div>
+            <p>
+              It helps you see how path finding
+              <span class="blue">algorithms</span> find the most efficient
+              <span class="blue">route</span> between source to target on a
+              grid.
+            </p>
+          </div>
 
-                <!-- -------- HOW -->
-                <div class="slide">
-                    <h4>How does it work</h4>
-                    <div class="img-box"></div>
-                    <p>
-                        You can set start and end points, create mazes, choose algorithms, and watch the process in
-                        action. 
-                        It's a fun and visual way to understand how different strategies navigate through obstacles to
-                        find the <span class="blue">shortest path</span>.
-                    </p>
-                </div>
+          <!-- -------- HOW -->
+          <div class="slide">
+            <h2>How does it work</h2>
+            <div class="img-box"></div>
+            <p>
+              You can set start and end points, create mazes, choose algorithms,
+              and watch the process in action. It's a fun and visual way to
+              understand how different strategies navigate through obstacles to
+              find the <span class="blue">shortest path</span>.
+            </p>
+          </div>
 
-                <!-- -------- SOURCE/TARGET -->
-                <div class="slide default-bg">
-                    <h4>Adjust source/target</h4>
-                    <div class="img-box shadow">
-                        <img src="assets/tutorial/drag-indicator.gif" alt="">
-                    </div>
-                    <p>
-                        Click and drag the <span class="blue">source/target</span> marker to where you want it on the grid.
-                    </p>
-                </div>
-
-                <!-- -------- DRAW WALLS -->
-                <div class="slide default-bg">
-                    <h4>Draw walls/obstacles</h4>
-                    <div class="img-box shadow">
-                        <img src="assets/tutorial/draw-wall.gif" alt="">
-                    </div>
-                    <p>
-                        Use the 'Draw Wall' option to mark obstacles on the grid. <br> Simply <span class="blue">click</span> and <span class="blue">drag</span> to create walls and define the layout.
-                    </p>
-                </div>
-
-                <!-- -------- MAZE GENERATION -->
-                <div class="slide default-bg">
-                    <h4>generate maze</h4>
-                    <div class="img-box shadow">
-                        <img src="assets/tutorial/generate-maze.gif" alt="">
-                    </div>
-                    <p>
-                        It's time to give your pathfinding algorithm a <span class="blue">brainstorm!</span> <br>
-                        Just click <span class="blue">Generate Maze</span> and watch the algorithm's creativity.
-                    </p>
-                </div>
-
-                <!-- -------- PIXEL SIZE -->
-                <div class="slide default-bg">
-                    <h4>Select Pixel Size</h4>
-                    <div class="img-box shadow">
-                        <img src="assets/tutorial/pixel_tutorial.webp" alt="">
-                    </div>
-                    <p>
-                        It allow you to increase or decrease the cells in the grid<br>
-                        helps you to get wider range in small devices, like <span class="blue">mobile phone</span>
-                    </p>
-                </div>
-
-                <!-- -------- SPEED -->
-                <div class="slide default-bg">
-                    <h4>Adjust the speed</h4>
-                    <div class="img-box shadow">
-                        <img src="assets/tutorial/speed_tutorial.webp" alt="">
-                    </div>
-                    <p>
-                        Adjust the <span class="blue">speed</span> of the searching to follow the algorithm's progress
-                        closely.
-                    </p>
-                </div>
-
-                <!-- -------- ALGORITHM -->
-                <div class="slide default-bg">
-                    <h4>Select Algorithm</h4>
-                    <div class="img-box shadow">
-                        <img src="assets/tutorial/algorithm_tutorial.webp" alt="">
-                    </div>
-                    <p>
-                        Pick one... from various <span class="blue">pathfinding algorithms.</span> Each has its unique way
-                        of finding the shortest path.
-                    </p>
-                </div>
-
-                <!-- -------- FINISH -->
-                <div class="slide">
-                    <h4>click on visualize btn</h4>
-                    <div class="img-box"></div>
-                    <p>
-                        click the <span class="blue">visualize</span> btn and boom !<br>
-                        enjoy the process
-                    </p>
-                </div>
-
-
+          <!-- -------- SOURCE/TARGET -->
+          <div class="slide default-bg">
+            <h4>Adjust source/target</h4>
+            <div class="img-box shadow">
+              <img src="assets/tutorial/drag-indicator.gif" alt="" />
             </div>
+            <p>
+              Click and drag the <span class="blue">source/target</span> marker
+              to where you want it on the grid.
+            </p>
+          </div>
 
-            <div class="dots">
-
+          <!-- -------- DRAW WALLS -->
+          <div class="slide default-bg">
+            <h4>Draw walls/obstacles</h4>
+            <div class="img-box shadow">
+              <img src="assets/tutorial/draw-wall.gif" alt="" />
             </div>
+            <p>
+              Use the 'Draw Wall' option to mark obstacles on the grid. <br />
+              Simply <span class="blue">click</span> and
+              <span class="blue">drag</span> to create walls and define the
+              layout.
+            </p>
+          </div>
 
-            <div class="bottom">
-                <div class="left">
-                    <div class="btn" id="skip">skip tutorial</div>
-                </div>
-                <div class="right">
-                    <div id="prev" class="btn unactive">previous</div>
-                    <div id="next" class="btn">next</div>
-                </div>
+          <!-- -------- MAZE GENERATION -->
+          <div class="slide default-bg">
+            <h4>generate maze</h4>
+            <div class="img-box shadow">
+              <img src="assets/tutorial/generate-maze.gif" alt="" />
             </div>
+            <p>
+              It's time to give your pathfinding algorithm a
+              <span class="blue">brainstorm!</span> <br />
+              Just click <span class="blue">Generate Maze</span> and watch the
+              algorithm's creativity.
+            </p>
+          </div>
+
+          <!-- -------- PIXEL SIZE -->
+          <div class="slide default-bg">
+            <h4>Select Pixel Size</h4>
+            <div class="img-box shadow">
+              <img src="assets/tutorial/pixel_tutorial.webp" alt="" />
+            </div>
+            <p>
+              It allow you to increase or decrease the cells in the grid<br />
+              helps you to get wider range in small devices, like
+              <span class="blue">mobile phone</span>
+            </p>
+          </div>
+
+          <!-- -------- SPEED -->
+          <div class="slide default-bg">
+            <h4>Adjust the speed</h4>
+            <div class="img-box shadow">
+              <img src="assets/tutorial/speed_tutorial.webp" alt="" />
+            </div>
+            <p>
+              Adjust the <span class="blue">speed</span> of the searching to
+              follow the algorithm's progress closely.
+            </p>
+          </div>
+
+          <!-- -------- ALGORITHM -->
+          <div class="slide default-bg">
+            <h4>Select Algorithm</h4>
+            <div class="img-box shadow">
+              <img src="assets/tutorial/algorithm_tutorial.webp" alt="" />
+            </div>
+            <p>
+              Pick one... from various
+              <span class="blue">pathfinding algorithms.</span> Each has its
+              unique way of finding the shortest path.
+            </p>
+          </div>
+
+          <!-- -------- FINISH -->
+          <div class="slide">
+            <h4>click on visualize btn</h4>
+            <div class="img-box"></div>
+            <p>
+              click the <span class="blue">visualize</span> btn and boom !<br />
+              enjoy the process
+            </p>
+          </div>
         </div>
+
+        <div class="dots"></div>
+
+        <div class="bottom">
+          <div class="left">
+            <div class="btn" id="skip">skip tutorial</div>
+          </div>
+          <div class="right">
+            <div id="prev" class="btn unactive">previous</div>
+            <div id="next" class="btn">next</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="template">
+      <!-- ================ NAVIGATION BAR ============== -->
+      <header>
+        <nav>
+          <h1>
+            <a id="logo" href="./index.html">pathfinding visualizer</a>
+          </h1>
 
-        <!-- ================ NAVIGATION BAR ============== -->
-        <header>
-            <nav>
-                <a id="logo" href="./index.html">pathfinding visualizer</a>
+          <button id="visualize" class="btn">Visualize</button>
 
-                <button id="visualize" class="btn">Visualize</button>
+          <ul class="nav-menu">
+            <li id="clear-path">Clear path</li>
+            <li id="clear-board">Clear board</li>
+            <li id="generate-maze">Generate Maze</li>
 
-                <ul class="nav-menu">
-                    <li>
-                        <a id="clear-path" href="#">Clear path</a>
-                    </li>
-                    <li>
-                        <a id="clear-board" href="#">Clear board</a>
-                    </li>
-                    <li>
-                        <a id="generate-maze" href="#">Generate Maze</a>
-                    </li>
+            <li id="pixel" class="drop-box">
+              <div class="dropdown-trigger">
+                Pixel
+                <span class="carret"></span>
+              </div>
+              <ul class="drop-menu">
+                <li>14px</li>
+                <li>16px</li>
+                <li>18px</li>
+                <li>20px</li>
+                <li class="active">22px</li>
+                <li>24px</li>
+                <li>26px</li>
+              </ul>
+            </li>
 
-                    <li id="pixel" class="drop-box">
-                        <a class="drop-toggle" href="#">Pixel<span class="carret"></span></a>
-                        <ul class="drop-menu">
-                            <li><a href="#">14px</a></li>
-                            <li><a href="#">16px</a></li>
-                            <li><a href="#">18px</a></li>
-                            <li><a href="#">20px</a></li>
-                            <li><a href="#" class="active">22px</a></li>
-                            <li><a href="#">24px</a></li>
-                            <li><a href="#">26px</a></li>
-                        </ul>
-                    </li>
+            <li id="speed" class="drop-box">
+              <div class="dropdown-trigger">
+                Speed
+                <span class="carret"></span>
+              </div>
 
-                    <li id="speed" class="drop-box">
-                        <a class="drop-toggle" href="#">Speed<span class="carret"></span></a>
-                        <ul class="drop-menu">
-                            <li><a href="#">Slow</a></li>
-                            <li><a href="#" class="active">Normal</a></li>
-                            <li><a href="#">Fast</a></li>
-                        </ul>
-                    </li>
+              <ul class="drop-menu">
+                <li>Slow</li>
+                <li class="active">Normal</li>
+                <li>Fast</li>
+              </ul>
+            </li>
 
-                    <li id="algo" class="drop-box">
-                        <a class="drop-toggle" href="#">Algorithms <span class="carret"></span></a>
-                        <ul class="drop-menu">
-                            <li><a href="#" class="active">BFS</a></li>
-                            <li><a href="#">Bi-Directional BFS</a></li>
-                            <li><a href="#">DFS</a></li>
-                            <li><a href="#">Dijkstra's Algorithm</a></li>
-                            <li><a href="#">Greedy Best-first Search</a></li>
-                            <li><a href="#">A* Algorithm</a></li>
-                        </ul>
-                    </li>
+            <li id="algo" class="drop-box">
+              <div class="dropdown-trigger">
+                Algorithms
+                <span class="carret"></span>
+              </div>
+              <ul class="drop-menu">
+                <li class="active">BFS</li>
+                <li>Bi-Directional BFS</li>
+                <li>DFS</li>
+                <li>Dijkstra's Algorithm</li>
+                <li>Greedy Best-first Search</li>
+                <li>A* Algorithm</li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
 
+        <!-- ================ GUIDE BAR ============== -->
 
-                </ul>
+        <ul class="guide">
+          <li>
+            <div class="symbol source"></div>
+            <div class="text">Start Node</div>
+          </li>
 
-            </nav>
+          <li>
+            <div class="symbol target"></div>
+            <div class="text">Target Node</div>
+          </li>
 
-            <!-- ================ GUIDE BAR ============== -->
+          <li>
+            <div class="symbol unvisited"></div>
+            <div class="text">Unvisited node</div>
+          </li>
 
-            <ul class="guide">
-                <li>
-                    <div class="symbol source"></div>
-                    <div class="text">Start Node</div>
-                </li>
+          <li>
+            <div class="symbol visited"></div>
+            <div class="text">visited node</div>
+          </li>
 
-                <li>
-                    <div class="symbol target"></div>
-                    <div class="text">Target Node</div>
-                </li>
+          <li>
+            <div class="symbol wall"></div>
+            <div class="text">wall node</div>
+          </li>
 
-                <li>
-                    <div class="symbol unvisited"></div>
-                    <div class="text"> Unvisited node</div>
-                </li>
+          <li>
+            <div class="symbol path"></div>
+            <div class="text">Shortest-Path Node</div>
+          </li>
 
-                <li>
-                    <div class="symbol visited"></div>
-                    <div class="text">visited node</div>
-                </li>
+          <div
+            class="tutorial-toggle"
+            aria-label="Open tutorial"
+            role="button"
+            tabindex="0"
+          ></div>
+        </ul>
 
-                <li>
-                    <div class="symbol wall"></div>
-                    <div class="text">wall node</div>
-                </li>
+        <div class="guide-toggle">
+          <img src="assets/icon/angle-double-down.svg" alt="" />
+        </div>
+      </header>
 
-                <li>
-                    <div class="symbol path"></div>
-                    <div class="text">Shortest-Path Node</div>
-                </li>
-
-                <div class="tutorial-toggle"></div>
-            </ul>
-
-            <div class="guide-toggle">
-                <img src="assets/icon/angle-double-down.svg" alt="">
-            </div>
-        </header>
-
-
-        <!-- ============ DYNAMIC BOARD ================ -->
-        <div id="board"><!-- magic --></div>
+      <!-- ============ DYNAMIC BOARD ================ -->
+      <div id="board"><!-- magic --></div>
     </div>
-</body>
+  </body>
 
-
-
-<script src="js/utils.js"></script>
-<script src="js/controlls.js"></script>
-<script src="js/board.js"></script>
-<script src="js/searchAlgo.js"></script>
-<script src="js/mazeGen.js"></script>
-<script src="js/main.js"></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/controlls.js" defer></script>
+  <script src="js/board.js" defer></script>
+  <script src="js/searchAlgo.js" defer></script>
+  <script src="js/mazeGen.js" defer></script>
+  <script src="js/main.js" defer></script>
 </html>
